@@ -44,15 +44,18 @@ ARG PKGS_ROOT=/opt/gow
 
 ARG REQUIRED_PACKAGES="\
     mesa-dri-drivers mesa-vulkan-drivers mesa-va-drivers mesa-libgbm mesa-libGL mesa-libEGL \
-    egl-gbm  \
-    gamescope \
-    sway \
+    egl-gbm \
+    gamescope sway \
     xorg-x11-server-Xwayland kitty nano \
     waybar default-fonts xdg-desktop-portal xdg-desktop-portal-gtk psmisc \
     mangohud \
     sdl2-compat ncurses \
     dbus-daemon \
-    "
+    vulkan-loader vulkan-tools vulkan-validation-layers \
+    libdecor \
+    libva-utils mesa-vdpau-drivers \
+    amdvlk \
+"
 
 RUN dnf install -y $REQUIRED_PACKAGES && \
     dnf clean all
