@@ -1,7 +1,7 @@
 #!/bin/bash
 # Custom steam startup script, the default `steam` script that comes from Fedora was failing
 
-STEAMDIR="${$HOME/.local/share}/Steam"
+STEAMDIR="${HOME}/.steam/steam"
 echo "Steam directory: $STEAMDIR"
 
 if [[ ! -f "$STEAMDIR/steam.sh" ]]; then
