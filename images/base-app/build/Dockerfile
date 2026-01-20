@@ -44,7 +44,8 @@ ENV DEB_BUILD_OPTIONS=noddebs
 ARG PKGS_ROOT=/opt/gow
 
 ARG REQUIRED_PACKAGES="\
-    mesa-dri-drivers mesa-vulkan-drivers mesa-va-drivers mesa-libgbm mesa-libGL mesa-libEGL \
+    mesa-dri-drivers mesa-vulkan-drivers mesa-va-drivers mesa-vdpau-drivers \
+    mesa-libgbm mesa-libGL mesa-libEGL \
     egl-gbm \
     gamescope sway \
     xorg-x11-server-Xwayland kitty nano \
@@ -54,11 +55,16 @@ ARG REQUIRED_PACKAGES="\
     dbus-daemon \
     vulkan-loader vulkan-tools vulkan-validation-layers \
     libdecor \
-    libva-utils mesa-vdpau-drivers \
+    ffmpeg \
+    libva libva-utils \
 "
 
-RUN dnf install -y $REQUIRED_PACKAGES && \
-    dnf clean all
+RUN dnf install -y \
+      https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+      https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
+    && dnf -y upgrade --refresh \
+    && dnf install -y ${REQUIRED_PACKAGES} \
+    && dnf clean all
 
 COPY configs /cfg
 
