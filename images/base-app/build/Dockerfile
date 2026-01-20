@@ -1,4 +1,5 @@
-ARG BASE_IMAGE=ghcr.io/games-on-whales/base:edge
+ARG BASE_IMAGE=ghcr.io/penturduckenline/gow-base:fedora
+
 #################################
 FROM ${BASE_IMAGE} AS sdl-jstest-builder
 
@@ -54,7 +55,6 @@ ARG REQUIRED_PACKAGES="\
     vulkan-loader vulkan-tools vulkan-validation-layers \
     libdecor \
     libva-utils mesa-vdpau-drivers \
-    amdvlk \
 "
 
 RUN dnf install -y $REQUIRED_PACKAGES && \

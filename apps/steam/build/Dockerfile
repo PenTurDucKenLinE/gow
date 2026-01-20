@@ -1,4 +1,4 @@
-ARG BASE_APP_IMAGE
+ARG BASE_APP_IMAGE=ghcr.io/penturduckenline/gow-base-app:fedora
 
 ######################################
 # The issue here is, that you don't want to give privileged,

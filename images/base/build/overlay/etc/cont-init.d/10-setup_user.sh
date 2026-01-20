@@ -26,8 +26,14 @@ if [[ "${UNAME}" != "root" ]]; then
     gow_log "Ensure retro home directory is writable"
     chown "${PUID}:${PGID}" "${HOME}"
 
-    gow_log "Ensure XDG_RUNTIME_DIR is writable"
+    # Where is XDG_RUNTIME_DIR defined?
+    gow_log "Ensure XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR is writable"
     chown -R "${PUID}:${PGID}" "${XDG_RUNTIME_DIR}"
+
+    gow_log "Ensure XDG_RUNTIME_DIR=/run/user/${PUID} exists and is writable"
+    mkdir -p /run/user/${PUID}
+    chown ${PUID}:${PGID} /run/user/${PUID}
+    chmod 700 /run/user/${PUID}
 else
     gow_log "Container running as root. Nothing to do."
 fi
