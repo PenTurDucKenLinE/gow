@@ -9,7 +9,7 @@ ENV \
     UMASK=000 \
     UNAME="retro" \
     HOME="/home/retro" \
-    TZ="Europe/London" \
+    TZ="America/Los_Angeles" \
     DEBIAN_FRONTEND=noninteractive \
     NEEDRESTART_SUSPEND=1
 
@@ -23,6 +23,7 @@ RUN <<_INSTALL_PACKAGES
 set -e
 
 echo "**** Install base packages ****"
+dnf -y upgrade --refresh
 dnf -y install \
         ca-certificates \
         fuse \

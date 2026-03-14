@@ -22,9 +22,13 @@ RUN dnf install -y git meson ca-certificates dpkg-dev && \
 # hadolint ignore=DL3006
 FROM ${BASE_APP_IMAGE}
 
+#_____________________________________________________________________________________
+# Install Steam
 RUN <<_INSTALL_STEAM
 #!/bin/bash
 set -e
+
+dnf -y upgrade --refresh
 
 # Taken from https://docs.fedoraproject.org/en-US/gaming/proton/
 dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
@@ -37,12 +41,33 @@ dnf install -y steam
 dnf install -y NetworkManager bluez ibus pkexec file pciutils lsb-release
 
 # Cleanup
-# We'll be using a custom steam startup script, the default `steam` script that comes from Fedora was failing
+# We will be using a custom steam startup script, the default `steam` script that comes from Fedora was failing
 rm $(which steam)
 dnf clean all
 _INSTALL_STEAM
 
-# create symlink for improved decky loader compatibility
+#_____________________________________________________________________________________
+# Install SteamCMD
+RUN <<_INSTALL_STEAMCMD
+#!/bin/bash
+set -e
+
+# Install 32-bit libraries
+dnf install -y glibc.i686 libstdc++.i686
+
+# Create directory and install SteamCMD
+mkdir -p /usr/local/steamcmd
+cd /usr/local/steamcmd
+curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
+
+# Initial setup
+./steamcmd.sh +quit || true
+
+dnf clean all
+_INSTALL_STEAMCMD
+
+#_____________________________________________________________________________________
+# Create symlink for improved decky loader compatibility
 RUN ln -sf "$HOME" /home/deck
 
 COPY --chmod=777 scripts/startup.sh /opt/gow/startup-app.sh

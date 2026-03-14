@@ -9,6 +9,8 @@ ARG SDL_JS_TEST_VERSION=8a84a47209f96eb3994cf9f906ae072e828886bb
 ENV SDL_JS_TEST_VERSION=${SDL_JS_TEST_VERSION}
 RUN <<_BUILD_SDL_JSTEST
     set -e 
+    
+    dnf -y upgrade --refresh
 
     dnf -y install \
       automake \
