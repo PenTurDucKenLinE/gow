@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=ghcr.io/penturduckenline/gow-base:fedora-44
+ARG BASE_IMAGE=ghcr.io/penturduckenline/gow-base:fedora
 
 #################################
 FROM ${BASE_IMAGE} AS sdl-jstest-builder
